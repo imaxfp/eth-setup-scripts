@@ -1,4 +1,4 @@
-# Setup scripts
+# Ethereum private network setup scripts.
 How to setup your private eth network or join to the existing one
 
 ## Preconditions
