@@ -5,7 +5,9 @@ How to setup your private eth network or join to the existing one
 1. Download and install the latest version of geth by the following link https://geth.ethereum.org/downloads/
 
 ### 1. Generate new encrypted account 
+```bash
 bash ./new_account.sh
+```
 
 ```bash
 Welcome to the new account generation, please type path to the your geth data dirictory. For example ./node0
@@ -18,7 +20,6 @@ Address: {cce0aa3116b9079f8da928589202e08eb630c303}
 List of yoyrs accouns:
 Account #0: {cce0aa3116b9079f8da928589202e08eb630c303} keystore:/.../UTC--2017-10-09T11-22-11.757525149Z--cce0aa3116b9079f8da928589202e08eb630c303
 ```
-
 
 ### 2. Init node by initial genesis script 
 
@@ -40,7 +41,6 @@ INFO [] Writing custom genesis block
 INFO [] Successfully wrote genesis state         database=lightchaindata hash=029f90…945ef4
 ```
 
-
 ### 3. Run your private network with static scripts, simple way.
 ##### 3.1 Repeat steps 1 and 2 for all nodes - node0, node1, etc. `Please be sure, all your nodes have the same init genesis block`
 ##### 3.2 Go to the ./static and cp node0.sh like node1.sh, node2.sh, etc. Change '--rpcport', '--port' and '--datadir'.
@@ -52,18 +52,23 @@ enode://94c5f9b4f7a77e8548f3c688c5eacfe5f02fb4352c73c6e193f6f3ab0cc3426d43276cf4
 enode://d76f47545f4c8e00552eaf8d5b2dfb7e841e82a3628d9240bb7925b7279c7df17ff838c7a3f7e499aa8f47d4e32e9310e002b601990e20ca6b8f232576055176@127.0.0.1:30301
 ...
 ```
-##### 3.5 Restart your network.
-##### 3.6 Run miner.sh
+##### 3.5 Restart your network nodes.
+##### 3.6 Start miner.
+```bash
+bash ./miner.sh 
+```
 
-
-### 4 how to start nodes in the background mode 
-
+### 4 how to start nodes in the background mode
+```bash
 nohup bash miner.sh & bg
+```
 
 ### 5. Create 'systemctl' service for starting the network
 
 ##### 5.1 create service file node1.service `use full path to the resurses into node1.sh, node2.sh, etc. For instance /path/to/geth`
+```bash
 touch /your/path/node1.service
+```
 
 ```bash
 #!/bin/sh -
@@ -76,20 +81,25 @@ ExecStart=/bin/bash /your/path/node1.sh 2>/your/path/node1/node1.log
 
 [Install]
 WantedBy=default.target
-
 ```
 
 ##### 5.2 create symbolic link
+```bash
 cd /etc/systemd/system
 ln -s /your/path/node1.service node1.service
+```
 
 ##### 5.3 verify
+```bash
 ls -l /home/atom/static/node.service node.service
+```
  
-##### 5.4 start service 
+##### 5.4 start service
+```bash
 sudo systemctl daemon-reload
 sudo systemctl start node1 &
 sudo systemctl status node1
+```
 
 ### 6. Run your private network with dynamic scripts `for advanced users`.
 
@@ -175,8 +185,9 @@ at block: 6 (Tue, 10 Oct 2017 08:43:23 EEST)
 ```
 #### 5.2 Run node with boot node key
 
-bash run.sh
 ```bash
+bash run.sh
+
 Run node script, please type path to the your geth data dirictory. For example ./node0
 /../node1
 Set port
