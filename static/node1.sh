@@ -2,7 +2,7 @@
 source ./main.sh
 
 CMD="
-geth --datadir ./node1
+./geth --datadir ./node1
 --rpcapi
 \"db,personal,eth,net,web3\" 
 --rpccorsdomain=\"*\"

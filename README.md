@@ -54,9 +54,44 @@ enode://d76f47545f4c8e00552eaf8d5b2dfb7e841e82a3628d9240bb7925b7279c7df17ff838c7
 ```
 ##### 3.5 Restart your network.
 ##### 3.6 Run miner.sh
- 
 
-### 4. Run your private network with dynamic scripts `for advanced users`.
+
+### 4 how to start nodes in the background mode 
+
+nohup bash miner.sh & bg
+
+### 5. Create 'systemctl' service for starting the network
+
+##### 5.1 create service file node1.service `use full path to the resurses into node1.sh, node2.sh, etc. For instance /path/to/geth`
+touch /your/path/node1.service
+
+```bash
+#!/bin/sh -
+[Unit]
+Description=node1
+
+[Service]
+Type=forking
+ExecStart=/bin/bash /your/path/node1.sh 2>/your/path/node1/node1.log
+
+[Install]
+WantedBy=default.target
+
+```
+
+##### 5.2 create symbolic link
+cd /etc/systemd/system
+ln -s /your/path/node1.service node1.service
+
+##### 5.3 verify
+ls -l /home/atom/static/node.service node.service
+ 
+##### 5.4 start service 
+sudo systemctl daemon-reload
+sudo systemctl start node1 &
+sudo systemctl status node1
+
+### 6. Run your private network with dynamic scripts `for advanced users`.
 
 ```bash
 Set port
@@ -98,7 +133,7 @@ at block: 6 (Tue, 10 Oct 2017 08:43:23 EEST)
 
 ```
 
-##### 4.1 Type 'admin' into console 
+##### 5.1 Type 'admin' into console 
 ```json
 > admin
 {
@@ -138,7 +173,7 @@ at block: 6 (Tue, 10 Oct 2017 08:43:23 EEST)
   stopWS: function()
 }
 ```
-#### 4.2 Run node with boot node key
+#### 5.2 Run node with boot node key
 
 bash run.sh
 ```bash
@@ -161,4 +196,6 @@ no
 Do you want to run node in miner mode? type yes/no 
 no
 ```
+
+
 

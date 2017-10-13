@@ -2,7 +2,7 @@
 source ./main.sh
 
 CMD="
-geth --datadir ./miner
+./geth --datadir ./miner
 --rpccorsdomain=\"*\"
 --networkid 2048
 --rpc
