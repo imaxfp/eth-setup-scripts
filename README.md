@@ -1,7 +1,7 @@
 # Ethereum private network setup scripts.
 
 
-#Proof-of-Authority consensus
+# Proof-of-Authority consensus
 
 
 Parity supports a Proof-of-Authority consensus engine to be used with EVM based chains. Proof-of-Authority is a replacement for Proof-of-Work, which can be used for private chain setups.
@@ -75,7 +75,7 @@ curl --data '{"jsonrpc":"2.0","method":"personal_sendTransaction","params":[{"fr
 8. Check wallet balance http://localhost:8181/#/accounts
 
  
-#Proof-of-Work consensus
+# Proof-of-Work consensus
 
 ## Preconditions
 1. Download and install the latest version of geth by the following link https://geth.ethereum.org/downloads/ and cd to the 'pow' folder.
