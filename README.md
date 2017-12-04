@@ -1,8 +1,84 @@
 # Ethereum private network setup scripts.
-How to setup your private eth network or join to the existing one
+
+
+#Proof-of-Authority consensus
+
+
+Parity supports a Proof-of-Authority consensus engine to be used with EVM based chains. Proof-of-Authority is a replacement for Proof-of-Work, which can be used for private chain setups.
+
+0. Download parity for your system - https://www.parity.io/ and cd to the 'poa' folder.
+
+1.
+```bash
+./parity --config node0.toml
+```
+
+
+
+2.
+2.1 go to the http://localhost:8180/#/accounts -> restore
+2.2 put all fields - node0
+2.3 get new account address - 0x00Bd138aBD70e2F00903268F3Db08f2D25677C9e 
+
+alternative approach
+```bash
+curl --data '{"jsonrpc":"2.0","method":"parity_newAccountFromPhrase","params":["node0", "node0"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8540
+``` 
+
+3. ./parity --config node1.toml
+3.1 repeat step 1 and 2. Replace 'node0' to 'node1'
+
+
+4. Add to the end of the file node0.toml
+
+```text
+[account]
+password = ["node.pwds"]
+[mining]
+engine_signer = "0x00Bd138aBD70e2F00903268F3Db08f2D25677C9e"
+reseal_on_txs = "none"
+```  
+
+5. Add to the end of the file node1.toml
+
+```text
+[account]
+password = ["node.pwds"]
+[mining]
+engine_signer = "0x00Aa39d30F0D20FF03a22cCfc30B7EfbFca597C2"
+reseal_on_txs = "none"
+```
+
+6. Restart nodes.
+./parity --config node0.toml
+./parity --config node1.toml
+
+7. Link nodes
+
+Get enode key
+```bash
+curl --data '{"jsonrpc":"2.0","method":"parity_enode","params":[],"id":0}' -H "Content-Type: application/json" -X POST localhost:8540
+```
+
+link node 0 and node 1
+```bash
+curl --data '{"jsonrpc":"2.0","method":"parity_addReservedPeer","params":["enode://RESULT"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8541
+```
+
+Now the nodes should indicate 0/1/25 peers in the console, which means they are connected to each other.
+
+7. Send test transaction
+```bash
+curl --data '{"jsonrpc":"2.0","method":"personal_sendTransaction","params":[{"from":"0x00Bd138aBD70e2F00903268F3Db08f2D25677C9e","to":"0x00Aa39d30F0D20FF03a22cCfc30B7EfbFca597C2","value":"0xde0b6b3a7640000"}, "node0"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8540
+```
+
+8. Check wallet balance http://localhost:8181/#/accounts
+
+ 
+#Proof-of-Work consensus
 
 ## Preconditions
-1. Download and install the latest version of geth by the following link https://geth.ethereum.org/downloads/
+1. Download and install the latest version of geth by the following link https://geth.ethereum.org/downloads/ and cd to the 'pow' folder.
 
 ### 1. Generate new encrypted account 
 ```bash
@@ -207,6 +283,8 @@ no
 Do you want to run node in miner mode? type yes/no 
 no
 ```
+
+
 
 
 
